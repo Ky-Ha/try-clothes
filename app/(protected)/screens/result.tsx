@@ -22,7 +22,7 @@ export default function ResultStyleScreen() {
   if (!resultImage) {
     return (
       <View className="flex-1">
-        <View style={{ paddingTop: insets.top }} className="px-4">
+        <View style={{ paddingTop: insets.top }}>
           <View className="flex-row items-center mb-6">
             <TouchableOpacity
               className="flex-row items-center gap-2"
@@ -53,7 +53,7 @@ export default function ResultStyleScreen() {
         }}
       >
         {/* HEADER */}
-        <View style={{ paddingTop: insets.top }} className="px-4">
+        <View style={{ paddingTop: insets.top }}>
           <View className="flex-row items-center mb-6">
             <TouchableOpacity
               className="flex-row items-center gap-2"
