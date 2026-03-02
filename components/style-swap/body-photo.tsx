@@ -7,7 +7,7 @@ import React from 'react';
 import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-const MAX_IMAGES = 3;
+const MAX_IMAGES = 1;
 
 export default function BodyPhotoPicker() {
   const { images, setImages, removeImage } = useBodyStore();
@@ -19,7 +19,7 @@ export default function BodyPhotoPicker() {
     additionalOptions: ImagePicker.ImagePickerOptions = {}
   ) => {
     if (images.length >= MAX_IMAGES) {
-      Alert.alert('Maximum Reached', 'You can only upload up to 3 images.');
+      Alert.alert('Maximum Reached', 'You can only upload up to 1 images.');
       return;
     }
 
@@ -65,7 +65,8 @@ export default function BodyPhotoPicker() {
         image = asset.uri;
       }
 
-      setImages([...images, image]);
+      // setImages([...images, image]);
+      setImages([image]);
     } catch (error) {
       console.error('Error picking or processing image:', error);
       Alert.alert('Error', 'Failed to pick or process image. Please try again.');
@@ -80,7 +81,8 @@ export default function BodyPhotoPicker() {
         {images.map((img, index) => (
           <View
             key={index}
-            className="relative  aspect-[0.3/0.9] w-[30%] overflow-hidden rounded-2xl">
+            // className="relative aspect-[0.3/0.9] w-[30%] overflow-hidden rounded-2xl">
+            className="relative aspect-[1/0.9] w-full overflow-hidden rounded-2xl">
             <Image source={{ uri: img }} className="h-full w-full" resizeMode="contain" />
             <TouchableOpacity
               onPress={() => removeImage(index)}
@@ -91,7 +93,7 @@ export default function BodyPhotoPicker() {
         ))}
 
         {/* Upload slot - only show when < 3 images */}
-        {images.length < 3 && (
+        {images.length < MAX_IMAGES && (
           <TouchableOpacity
             onPress={() =>
               pickImage(
@@ -123,7 +125,6 @@ export default function BodyPhotoPicker() {
               <View className="bg h-11  w-11 items-center justify-center rounded-full">
                 <Camera size={25} color={'black'} strokeWidth={2} />
               </View>
-              <Text className="text-xs text-gray-300">Camera</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         )}

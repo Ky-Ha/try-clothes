@@ -1,21 +1,14 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface ItemStore {
-  images: string[] // array of base64 or uri strings
-  addImage: (image: string) => void
-  removeImage: (index: number) => void
-  setImages: (newImages: string[]) => void
-  clearImages: () => void
+  images: string[]; // array of base64 or uri strings
+  removeImage: (index: number) => void;
+  setImages: (newImages: string[]) => void;
+  clearImages: () => void;
 }
 
 export const useItemStore = create<ItemStore>((set) => ({
   images: [],
-
-  addImage: (image) =>
-    set((state) => {
-      if (state.images.length >= 3) return state // prevent adding more than 3
-      return { images: [...state.images, image] }
-    }),
 
   removeImage: (index) =>
     set((state) => ({
@@ -25,4 +18,4 @@ export const useItemStore = create<ItemStore>((set) => ({
   setImages: (newImages) => set({ images: newImages }),
 
   clearImages: () => set({ images: [] }),
-}))
+}));
