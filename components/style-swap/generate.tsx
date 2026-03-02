@@ -58,7 +58,7 @@ export default function GenerateButton({ description }: GenerateButtonProps) {
   }
 
   return (
-    <View className="absolute bottom-3 left-0 right-0 px-4 pb-6">
+    <View className="w-full">
       <TouchableOpacity
         onPress={handleGenerate}
         disabled={isPending}

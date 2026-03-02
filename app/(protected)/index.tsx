@@ -1,3 +1,4 @@
+import ThemKeyboardAwareScrollView from '@/components/ThemKeyboardAwareScrollView';
 import ThemedScroller from '@/components/ThemeScroller';
 import ThemedText from '@/components/ThemedText';
 import BodyPhotoPicker from '@/components/style-swap/body-photo';
@@ -6,35 +7,48 @@ import ItemPhotoPicker from '@/components/style-swap/item-photo';
 import { StyleDescription } from '@/components/style-swap/style-description';
 
 import { useState } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 export default function StyleSwapScreen() {
   const [description, setDescription] = useState('');
 
   return (
-    <ThemedScroller className="flex-1">
-      <View className="flex-1">
-        <ThemedText className="my-5 text-center text-xl font-semibold">StyleSwap</ThemedText>
+    <View className="relative flex-1">
+      <ThemKeyboardAwareScrollView
+        enableOnAndroid
+        extraScrollHeight={120}
+        keyboardOpeningTime={0}
+        keyboardShouldPersistTaps="handled"
+        className="flex-1">
+        {/* Header Section */}
+        <View className="w-full">
+          <ThemedText className="my-5 text-center text-xl font-bold">StyleSwap</ThemedText>
 
-        <ThemedText className="text-base font-semibold">Body Photo</ThemedText>
-        <ThemedText className="mb-3 text-gray-500">
-          Upload a photo of yourself for the try-on
-        </ThemedText>
+          <ThemedText className="text-base font-semibold">Body Photo</ThemedText>
+          <ThemedText className="mb-3 text-gray-500">
+            Upload a photo of yourself for the try-on
+          </ThemedText>
 
-        <BodyPhotoPicker />
+          {/* Ensure BodyPhotoPicker has its own internal height or aspect ratio */}
+          <BodyPhotoPicker />
 
-        <ThemedText className="mt-5 text-base font-semibold">Sample Items</ThemedText>
-        <ItemPhotoPicker />
+          <ThemedText className="mt-6 text-base font-semibold">Sample Items</ThemedText>
+          <ItemPhotoPicker />
+        </View>
+
+        {/* Description Section */}
+        <View className="mt-6 w-full">
+          <ThemedText className="text-base font-semibold">
+            Describe Your Style Request (Optional)
+          </ThemedText>
+          <StyleDescription value={description} onChange={setDescription} />
+        </View>
+
+        {/* Button Section */}
+      </ThemKeyboardAwareScrollView>
+      <View className="absolute bottom-2 left-0 right-0 mx-6 my-4">
+        <GenerateButton description={description} />
       </View>
-
-      <View className="flex-1">
-        <ThemedText className="mt-5 text-base font-semibold">
-          Describe Your Style Request (Optional)
-        </ThemedText>
-        <StyleDescription value={description} onChange={setDescription} />
-      </View>
-
-      <GenerateButton description={description} />
-    </ThemedScroller>
+    </View>
   );
 }

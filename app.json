@@ -67,11 +67,14 @@
       },
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.kyf2611.tryclothes"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3e4eee33-d4bd-41f3-8a76-298c86be834c"
+      }
     }
   }
 }

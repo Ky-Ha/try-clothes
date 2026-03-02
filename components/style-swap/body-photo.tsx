@@ -1,34 +1,32 @@
-import { useBodyStore } from '@/store/body'
-import { Ionicons } from '@expo/vector-icons'
-import * as FileSystem from 'expo-file-system/legacy'
-import * as ImagePicker from 'expo-image-picker'
-import { Camera } from 'lucide-react-native'
-import React from 'react'
-import { Alert, Image, Text, TouchableOpacity, View } from 'react-native'
+import { useBodyStore } from '@/store/body';
+import { Ionicons } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system/legacy';
+import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'lucide-react-native';
+import React from 'react';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
-const MAX_IMAGES = 3
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_IMAGES = 3;
 
 export default function BodyPhotoPicker() {
-  const { images, setImages, removeImage } = useBodyStore()
+  const { images, setImages, removeImage } = useBodyStore();
 
   const pickImage = async (
     requestPermission: () => Promise<{ granted: boolean }>,
-    launch: (
-      options?: ImagePicker.ImagePickerOptions,
-    ) => Promise<ImagePicker.ImagePickerResult>,
+    launch: (options?: ImagePicker.ImagePickerOptions) => Promise<ImagePicker.ImagePickerResult>,
     permissionMessage: string,
-    additionalOptions: ImagePicker.ImagePickerOptions = {},
+    additionalOptions: ImagePicker.ImagePickerOptions = {}
   ) => {
     if (images.length >= MAX_IMAGES) {
-      Alert.alert('Maximum Reached', 'You can only upload up to 3 images.')
-      return
+      Alert.alert('Maximum Reached', 'You can only upload up to 3 images.');
+      return;
     }
 
-    const { granted } = await requestPermission()
+    const { granted } = await requestPermission();
     if (!granted) {
-      Alert.alert('Permission required', permissionMessage)
-      return
+      Alert.alert('Permission required', permissionMessage);
+      return;
     }
 
     try {
@@ -37,43 +35,42 @@ export default function BodyPhotoPicker() {
         base64: true,
         quality: 0.3, // Lower quality to reduce size
         ...additionalOptions,
-      })
+      });
 
-      if (result.canceled || !result.assets?.length) return
+      if (result.canceled || !result.assets?.length) return;
 
-      const asset = result.assets[0]
+      const asset = result.assets[0];
 
       // Validate file size using expo-file-system
-      const fileInfo = await FileSystem.getInfoAsync(asset.uri)
+      const fileInfo = await FileSystem.getInfoAsync(asset.uri);
 
-      if (!('exists' in fileInfo) || !fileInfo.exists || !('size' in fileInfo))
-        return
+      if (!('exists' in fileInfo) || !fileInfo.exists || !('size' in fileInfo)) return;
 
-      const size = fileInfo.size ?? 0
+      const size = fileInfo.size ?? 0;
 
       if (size > MAX_FILE_SIZE) {
         Alert.alert(
           'Image Too Large',
-          'The selected image is too large. Please take a closer photo or select a smaller image.',
-        )
-        return
+          'The selected image is too large. Please take a closer photo or select a smaller image.'
+        );
+        return;
       }
 
-      let image: string
+      let image: string;
 
       if (asset.base64) {
-        const mime = asset.mimeType ?? 'image/jpeg'
-        image = `data:${mime};base64,${asset.base64}`
+        const mime = asset.mimeType ?? 'image/jpeg';
+        image = `data:${mime};base64,${asset.base64}`;
       } else {
-        image = asset.uri
+        image = asset.uri;
       }
 
-      setImages([...images, image])
+      setImages([...images, image]);
     } catch (error) {
-      console.error('Error picking or processing image:', error)
-      Alert.alert('Error', 'Failed to pick or process image. Please try again.')
+      console.error('Error picking or processing image:', error);
+      Alert.alert('Error', 'Failed to pick or process image. Please try again.');
     }
-  }
+  };
 
   return (
     <View className="flex-1">
@@ -83,17 +80,11 @@ export default function BodyPhotoPicker() {
         {images.map((img, index) => (
           <View
             key={index}
-            className="relative w-[31%] aspect-[1/3] rounded-2xl overflow-hidden"
-          >
-            <Image
-              source={{ uri: img }}
-              className="w-full h-full"
-              resizeMode="contain"
-            />
+            className="relative  aspect-[0.3/0.9] w-[30%] overflow-hidden rounded-2xl">
+            <Image source={{ uri: img }} className="h-full w-full" resizeMode="contain" />
             <TouchableOpacity
               onPress={() => removeImage(index)}
-              className="absolute top-2 right-1 bg-black/70 rounded-full p-1"
-            >
+              className="absolute right-1 top-2 rounded-full bg-black/70 p-1">
               <Ionicons name="close" size={18} color="white" />
             </TouchableOpacity>
           </View>
@@ -106,39 +97,37 @@ export default function BodyPhotoPicker() {
               pickImage(
                 ImagePicker.requestMediaLibraryPermissionsAsync,
                 ImagePicker.launchImageLibraryAsync,
-                'Gallery access is needed to upload photos.',
+                'Gallery access is needed to upload photos.'
               )
             }
-            className="w-[31%] aspect-[1/3] border-2 border-dashed border-gray-300 rounded-2xl items-center justify-center"
+            className="w-[31%] items-center justify-center rounded-2xl border-2 border-dashed border-gray-300"
             style={
               images.length === 0 && {
                 width: '100%',
-                aspectRatio: '1/1',
+                aspectRatio: '1/0.9',
                 height: '100%',
               }
-            }
-          >
+            }>
             <Ionicons name="add" size={40} color="#5834eb" />
-            <Text className="font-semibold text-base">Tap</Text>
-            <Text className="text-gray-500 text-sm mt-1">Add Photo</Text>
+            <Text className="text-base font-semibold">Tap</Text>
+            <Text className="mt-1 text-sm text-gray-500">Add Photo</Text>
             <TouchableOpacity
               onPress={() =>
                 pickImage(
                   ImagePicker.requestCameraPermissionsAsync,
                   ImagePicker.launchCameraAsync,
-                  'Camera access is needed to take photos.',
+                  'Camera access is needed to take photos.'
                 )
               }
-              className="flex-col items-center absolute bottom-3 right-1"
-            >
-              <View className="w-11 h-11  rounded-full items-center justify-center bg">
+              className="absolute bottom-3 right-1 flex-col items-center">
+              <View className="bg h-11  w-11 items-center justify-center rounded-full">
                 <Camera size={25} color={'black'} strokeWidth={2} />
               </View>
-              <Text className="text-gray-300 text-xs">Camera</Text>
+              <Text className="text-xs text-gray-300">Camera</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         )}
       </View>
     </View>
-  )
+  );
 }

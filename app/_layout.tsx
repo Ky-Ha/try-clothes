@@ -33,7 +33,7 @@ export default function RootLayout() {
         <ThemeProvider>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView
-              edges={['top']}
+              edges={['top', 'bottom']}
               style={{
                 flex: 1,
                 backgroundColor: colors.bg,
