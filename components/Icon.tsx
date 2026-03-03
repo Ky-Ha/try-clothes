@@ -1,30 +1,27 @@
-import { useThemeColors } from '@/contexts/ThemeColors'
-import { Link } from 'expo-router'
-import * as LucideIcons from 'lucide-react-native'
-import { LucideProps } from 'lucide-react-native'
-import React, { ComponentProps } from 'react'
-import { Pressable, View, ViewStyle } from 'react-native'
+import { useThemeColors } from '@/contexts/ThemeColors';
+import { Link } from 'expo-router';
+import * as LucideIcons from 'lucide-react-native';
+import { LucideProps } from 'lucide-react-native';
+import React, { ComponentProps } from 'react';
+import { Pressable, View, ViewStyle } from 'react-native';
 
-type IconVariant = 'plain' | 'bordered' | 'contained'
-type IconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'
-type IconName = Exclude<
-  keyof typeof LucideIcons,
-  'createLucideIcon' | 'default'
->
+type IconVariant = 'plain' | 'bordered' | 'contained';
+type IconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+type IconName = Exclude<keyof typeof LucideIcons, 'createLucideIcon' | 'default'>;
 
 interface IconProps {
-  name: IconName
-  size?: number
-  color?: string
-  variant?: IconVariant
-  iconSize?: IconSize
-  href?: ComponentProps<typeof Link>['href']
-  onPress?: () => void
-  disabled?: boolean
-  className?: string
-  style?: ViewStyle
-  strokeWidth?: number
-  fill?: string
+  name: IconName;
+  size?: number;
+  color?: string;
+  variant?: IconVariant;
+  iconSize?: IconSize;
+  href?: ComponentProps<typeof Link>['href'];
+  onPress?: () => void;
+  disabled?: boolean;
+  className?: string;
+  style?: ViewStyle;
+  strokeWidth?: number;
+  fill?: string;
 }
 
 const Icon: React.FC<IconProps> = ({
@@ -41,7 +38,7 @@ const Icon: React.FC<IconProps> = ({
   strokeWidth = 2,
   fill = 'none',
 }) => {
-  const colors = useThemeColors()
+  const colors = useThemeColors();
 
   const sizeMap = {
     xs: { container: 'w-8 h-8', icon: 16 },
@@ -50,30 +47,30 @@ const Icon: React.FC<IconProps> = ({
     l: { container: 'w-16 h-16', icon: 32 },
     xl: { container: 'w-20 h-20', icon: 40 },
     xxl: { container: 'w-24 h-24', icon: 48 },
-  }
+  };
 
   const getSize = () => {
     if (iconSize && sizeMap[iconSize]) {
-      return sizeMap[iconSize]
+      return sizeMap[iconSize];
     }
     if (typeof size === 'number') {
-      return { container: '', icon: size }
+      return { container: '', icon: size };
     }
-    return { container: '', icon: 24 }
-  }
+    return { container: '', icon: 24 };
+  };
 
   const getVariantClass = () => {
     switch (variant) {
       case 'bordered':
-        return 'border border-light-secondary dark:border-dark-secondary rounded-full items-center justify-center'
+        return 'border border-light-secondary dark:border-dark-secondary rounded-full items-center justify-center';
       case 'contained':
-        return 'bg-secondary  dark:bg-dark-secondary rounded-full items-center justify-center'
+        return 'bg-secondary  dark:bg-dark-secondary rounded-full items-center justify-center';
       default:
-        return ''
+        return '';
     }
-  }
+  };
 
-  const { container, icon } = getSize()
+  const { container, icon } = getSize();
 
   const classes = [
     'items-center justify-center',
@@ -83,27 +80,27 @@ const Icon: React.FC<IconProps> = ({
   ]
     .filter(Boolean)
     .join(' ')
-    .trim()
+    .trim();
 
-  const IconComponent = LucideIcons[name] as React.ComponentType<LucideProps>
+  const IconComponent = LucideIcons[name] as React.ComponentType<LucideProps>;
 
   const content = (
     <View style={style} className={classes || undefined}>
       <IconComponent
         size={icon}
-        color={color || colors.text}
+        color={color || colors.icon}
         strokeWidth={strokeWidth}
-        fill={fill}
+        fill={fill !== 'none' ? colors.icon : 'none'}
       />
     </View>
-  )
+  );
 
   if (href) {
     return (
       <Link href={href} asChild>
         <Pressable disabled={disabled}>{content}</Pressable>
       </Link>
-    )
+    );
   }
 
   if (onPress) {
@@ -112,15 +109,14 @@ const Icon: React.FC<IconProps> = ({
         onPress={disabled ? undefined : onPress}
         disabled={disabled}
         style={style}
-        className={classes || undefined}
-      >
+        className={classes || undefined}>
         {content}
       </Pressable>
-    )
+    );
   }
 
-  return content
-}
+  return content;
+};
 
-export default Icon
-export type { IconName }
+export default Icon;
+export type { IconName };

@@ -1,10 +1,11 @@
 import { useBodyStore } from '@/store/body';
-import { Ionicons } from '@expo/vector-icons';
+
 import * as FileSystem from 'expo-file-system/legacy';
 import * as ImagePicker from 'expo-image-picker';
 import { Camera } from 'lucide-react-native';
 import React from 'react';
 import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
+import Icon from '../Icon';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const MAX_IMAGES = 1;
@@ -87,7 +88,7 @@ export default function BodyPhotoPicker() {
             <TouchableOpacity
               onPress={() => removeImage(index)}
               className="absolute right-1 top-2 rounded-full bg-black/70 p-1">
-              <Ionicons name="close" size={18} color="white" />
+              <Icon name="CircleX" size={18} color="white" />
             </TouchableOpacity>
           </View>
         ))}
@@ -110,7 +111,7 @@ export default function BodyPhotoPicker() {
                 height: '100%',
               }
             }>
-            <Ionicons name="add" size={40} color="#5834eb" />
+            <Icon name="Plus" size={40} color="#5834eb" />
             <Text className="text-base font-semibold">Tap</Text>
             <Text className="mt-1 text-sm text-gray-500">Add Photo</Text>
             <TouchableOpacity

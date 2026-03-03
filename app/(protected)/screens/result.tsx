@@ -1,7 +1,8 @@
+import Icon from '@/components/Icon';
 import ThemedScroller from '@/components/ThemeScroller';
 import ThemedText from '@/components/ThemedText';
 import { useResultStore } from '@/store/result';
-import { Ionicons } from '@expo/vector-icons';
+
 import { router } from 'expo-router';
 import { Image, ImageBackground, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,7 +20,7 @@ export default function ResultStyleScreen() {
         <View style={{ paddingTop: insets.top }}>
           <View className="mb-6 flex-row items-center">
             <TouchableOpacity className="flex-row items-center gap-2" onPress={() => router.back()}>
-              <Ionicons name="chevron-back" size={24} />
+              <Icon name="ChevronRight" size={24} />
               <ThemedText className="text-xl font-semibold">Style Result</ThemedText>
             </TouchableOpacity>
           </View>
@@ -45,7 +46,7 @@ export default function ResultStyleScreen() {
         <View style={{ paddingTop: insets.top }}>
           <View className="mb-6 flex-row items-center">
             <TouchableOpacity className="flex-row items-center gap-2" onPress={() => router.back()}>
-              <Ionicons name="chevron-back" size={24} />
+              <Icon name="ChevronRight" size={24} />
               <ThemedText className="text-xl font-semibold">Style Result</ThemedText>
             </TouchableOpacity>
           </View>

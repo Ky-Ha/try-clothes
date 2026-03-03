@@ -1,0 +1,169 @@
+import { View, TouchableOpacity, Switch } from 'react-native';
+
+import { useState } from 'react';
+import ThemedScroller from '@/components/ThemeScroller';
+import ThemedText from '@/components/ThemedText';
+import Icon from '@/components/Icon';
+import { Separator } from '@/components/ui/separator';
+import ThemedLightDarkView from '@/components/ThemeLightDarkView';
+
+export default function ProfileScreen() {
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [promptEnhancement, setPromptEnhancement] = useState(true);
+  const [showEnjoyModal, setShowEnjoyModal] = useState(false);
+
+  return (
+    <ThemedScroller className="flex-1" contentContainerStyle={{ paddingBottom: 40 }}>
+      {/* Header */}
+      <ThemedText className="mb-4 mt-4 w-full items-center text-2xl font-semibold">
+        Profile
+      </ThemedText>
+
+      {/* Not signed in card */}
+      <ThemedLightDarkView className="mb-6 items-center p-4 rounded-3xl">
+        <Icon name="CircleUser" size={42} />
+        <ThemedText className="mt-3 font-semibold text-2xl ">Not signed in</ThemedText>
+        <ThemedText className="mt-1 text-center text-sm text-zinc-400">
+          Sign in to access your account details, subscription info, and personalized features
+        </ThemedText>
+
+        <TouchableOpacity className="mt-4 rounded-xl border border-gray-300 px-6 py-3">
+          <ThemedText className="font-semibold">Sign in</ThemedText>
+        </TouchableOpacity>
+      </ThemedLightDarkView>
+
+      {/* Quick actions */}
+      <Section>
+        <RowModel
+          label="Enjoying the app?"
+          onPress={() => setShowEnjoyModal((state) => !state)}
+          showEnjoyModal={showEnjoyModal}
+        />
+        {showEnjoyModal && (
+          <View className="inset-0 z-50 justify-end px-6">
+            <Separator />
+            {/* sheet */}
+            <View className="rounded-t-3xl">
+              <View className="mb-4 h-1 w-10 self-center rounded-full" />
+
+              <ThemedText className="mb-2 text-lg font-semibold ">Enjoying the app?</ThemedText>
+
+              <ThemedText className="mb-5 text-sm">
+                We'd love to hear from you! If you're enjoying Inkigo, a review on the App Store
+                helps other tattoo lovers discover us. You can also reach out anytime with feedback
+                or feature ideas.
+              </ThemedText>
+              <Separator />
+              {/* Rate app */}
+              <TouchableOpacity className="flex-row items-center py-3">
+                <ThemedText className="text-2xl">⭐</ThemedText>
+                <ThemedText className="ml-3 font-semibold text-yellow-400">
+                  Rate on App Store
+                </ThemedText>
+              </TouchableOpacity>
+
+              {/* Feedback */}
+              <TouchableOpacity className="ml-2 flex-row items-center py-3">
+                <Icon name="Mail" size={20} />
+                <ThemedText className="ml-3">Send Feedback</ThemedText>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </Section>
+
+      {/* Support & Feedback */}
+      <Section title="SUPPORT & FEEDBACK">
+        <Row icon="Star" label="Rate App" />
+        <Row icon="Share2" label="Share with Friends" />
+        <Row icon="Mail" label="Contact Support" />
+      </Section>
+
+      {/* Follow us */}
+      <Section title="FOLLOW US">
+        <Row icon="Globe" label="inkigo.ai" />
+        <Row icon="Instagram" label="Instagram" />
+        <Row icon="Music" label="TikTok" />
+        <Row icon="Twitter" label="X" />
+      </Section>
+
+      {/* Settings */}
+      <Section title="SETTINGS">
+        <ToggleRow label="Show Onboarding" value={showOnboarding} onChange={setShowOnboarding} />
+        <ToggleRow
+          label="Prompt Enhancement"
+          value={promptEnhancement}
+          onChange={setPromptEnhancement}
+        />
+      </Section>
+
+      {/* Legal */}
+      <Section title="LEGAL">
+        <Row icon="Hand" label="Privacy Policy" />
+        <Row icon="FileText" label="Terms of Service" />
+      </Section>
+    </ThemedScroller>
+  );
+}
+
+const Section = ({ title, children }: { title?: string; children: React.ReactNode }) => {
+  return (
+    <View className="mb-6 ">
+      {title && (
+        <View className="px-4">
+          <ThemedText className="mb-2 text-xs">{title}</ThemedText>
+        </View>
+      )}
+      <ThemedLightDarkView className="rounded-2xl px-4">
+        <View className="overflow-hidden rounded-2xl ">{children}</View>
+      </ThemedLightDarkView>
+    </View>
+  );
+};
+
+const Row = ({ icon, label }: { icon: any; label: string }) => {
+  return (
+    <TouchableOpacity className="flex-row items-center border-b py-4 last:border-b-0">
+      <Icon name={icon} size={30} fill={'ok'} />
+      <ThemedText className="ml-3 flex-1 ">{label}</ThemedText>
+    </TouchableOpacity>
+  );
+};
+
+const ToggleRow = ({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: boolean;
+  onChange: (v: boolean) => void;
+}) => {
+  return (
+    <View className="flex-row items-center border-b  px-4 py-4 last:border-b-0">
+      <ThemedText className="flex-1 ">{label}</ThemedText>
+      <Switch value={value} onValueChange={onChange} />
+    </View>
+  );
+};
+
+const RowModel = ({
+  label,
+  onPress,
+  showEnjoyModal,
+}: {
+  label: string;
+  showEnjoyModal: boolean;
+  onPress?: () => void;
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      className="flex-row items-center border-b py-4 last:border-b-0">
+      <ThemedText className="text-2xl">🎁</ThemedText>
+      <ThemedText className="ml-3 flex-1 ">{label}</ThemedText>
+      <Icon name={showEnjoyModal ? 'ChevronDown' : 'ChevronRight'} size={18} />
+    </TouchableOpacity>
+  );
+};
