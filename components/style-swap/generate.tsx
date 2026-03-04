@@ -37,9 +37,7 @@ export default function GenerateButton({ description }: GenerateButtonProps) {
       // setResultImage(require('@/assets/images/fake-result.png'))
       setResultImage(image);
 
-      console.log('Generated image 2:');
       router.push('/screens/result');
-      console.log('Generated image 3:');
     },
 
     onError: (error: any) => {
@@ -50,8 +48,6 @@ export default function GenerateButton({ description }: GenerateButtonProps) {
 
   const handleGenerate = () => {
     if (isPending) return;
-
-    console.log('Generated image 1:');
 
     mutate({
       bodyImages,

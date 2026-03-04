@@ -4,9 +4,9 @@ import ThemedText from '@/components/ThemedText';
 import ThemedScroller from '@/components/ThemeScroller';
 
 export default function MyTattoosScreen() {
-  const tattoos: any[] = []; // your data
+  const styles: any[] = []; // your data
 
-  if (tattoos.length === 0) {
+  if (styles.length === 0) {
     return <MyTattoosEmpty />;
   }
 
@@ -20,7 +20,7 @@ function MyTattoosEmpty() {
   return (
     <ThemedScroller className="flex-1 px-6 pt-4">
       <View className="mb-6 flex-row items-center justify-between">
-        <ThemedText className="text-2xl font-bold">My Tattoos</ThemedText>
+        <ThemedText className="text-2xl font-bold">My Style</ThemedText>
       </View>
       <View className="flex-1 items-center justify-center px-6">
         {/* Icon */}
@@ -29,7 +29,7 @@ function MyTattoosEmpty() {
         </View>
 
         {/* Title */}
-        <ThemedText className="mb-2 text-xl font-semibold">No tattoos saved yet</ThemedText>
+        <ThemedText className="mb-2 text-xl font-semibold">No styles saved yet</ThemedText>
 
         {/* Subtitle */}
         <ThemedText className="text-center text-sm leading-5">

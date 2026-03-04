@@ -10,13 +10,13 @@ export const homeData = {
     {
       id: 'camera',
       title: 'See It On You',
-      subtitle: 'Preview tattoos on your body using camera',
+      subtitle: 'Preview styles on your body using camera',
       image: 'https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?q=80&w=1200',
     },
     {
       id: 'text',
       title: 'Text to Ink',
-      subtitle: 'Turn words into meaningful tattoos',
+      subtitle: 'Turn words into meaningful styles',
       image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=1200',
     },
     {

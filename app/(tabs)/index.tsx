@@ -12,7 +12,9 @@ export default function HomeScreen() {
       {/* HEADER */}
       <View className="mb-6 flex-row items-center justify-between">
         <ThemedText className="text-2xl font-bold">Inkigo AI</ThemedText>
-        <ThemedText className="font-semibold text-yellow-400">New Tattoo</ThemedText>
+        <TouchableOpacity>
+          <ThemedText className="font-semibold text-yellow-400">New Tattoo</ThemedText>
+        </TouchableOpacity>
       </View>
 
       {/* HERO ACTIONS */}
