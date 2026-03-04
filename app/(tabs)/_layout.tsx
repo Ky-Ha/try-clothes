@@ -3,7 +3,6 @@ import useThemeColors from '@/contexts/ThemeColors';
 import { shadowPresets } from '@/utils/useShadow';
 import { TabList, Tabs, TabSlot, TabTrigger } from 'expo-router/ui';
 import React from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Layout() {
   const colors = useThemeColors();

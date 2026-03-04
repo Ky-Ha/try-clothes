@@ -88,7 +88,7 @@ export default function BodyPhotoPicker() {
             <TouchableOpacity
               onPress={() => removeImage(index)}
               className="absolute right-1 top-2 rounded-full bg-black/70 p-1">
-              <Icon name="CircleX" size={18} color="white" />
+              <Icon name="X" size={10} color="white" />
             </TouchableOpacity>
           </View>
         ))}
