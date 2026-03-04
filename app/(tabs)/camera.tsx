@@ -19,11 +19,12 @@ export default function StyleSwapScreen() {
         extraScrollHeight={120}
         keyboardOpeningTime={0}
         keyboardShouldPersistTaps="handled"
-        className="flex-1">
+        className="flex-1 px-6 pt-4">
         {/* Header Section */}
+        <View className="mb-6 flex-row items-center justify-between">
+          <ThemedText className="text-2xl font-bold">StyleSwap</ThemedText>
+        </View>
         <View className="w-full">
-          <ThemedText className="my-5 text-center text-xl font-bold">StyleSwap</ThemedText>
-
           <ThemedText className="text-base font-semibold">Body Photo</ThemedText>
           <ThemedText className="mb-3 text-gray-500">
             Upload a photo of yourself for the try-on

@@ -8,7 +8,7 @@ export default function HomeScreen() {
   const { width, height } = useWindowDimensions();
 
   return (
-    <ThemedScroller className="flex-1 bg-slate-200 px-6 pt-4">
+    <ThemedScroller className="flex-1 px-6 pt-4">
       {/* HEADER */}
       <View className="mb-6 flex-row items-center justify-between">
         <ThemedText className="text-2xl font-bold">Inkigo AI</ThemedText>
