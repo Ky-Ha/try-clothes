@@ -7,18 +7,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function Layout() {
   const colors = useThemeColors();
-  const insets = useSafeAreaInsets();
+
   return (
     <Tabs>
       <TabSlot />
       <TabList
+        className="pb-2"
         style={{
           alignItems: 'center',
           backgroundColor: colors.secondary,
-          paddingBottom: insets.bottom,
+
           ...shadowPresets.large,
         }}>
-        {/* Home Tab */}
         <TabTrigger name="index" href="/" asChild>
           <TabButton labelAnimated={true} icon="House">
             Home

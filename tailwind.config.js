@@ -15,7 +15,6 @@ module.exports = {
         global: '24px',
       },
       colors: {
-        border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
@@ -29,10 +28,6 @@ module.exports = {
         border: 'var(--color-border)',
         invert: 'var(--color-invert)',
         darker: 'var(--color-darker)',
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',

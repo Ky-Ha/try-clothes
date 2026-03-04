@@ -13,16 +13,16 @@ export default function ProfileScreen() {
   const [showEnjoyModal, setShowEnjoyModal] = useState(false);
 
   return (
-    <ThemedScroller className="flex-1" contentContainerStyle={{ paddingBottom: 40 }}>
+    <ThemedScroller className="flex-1 px-6">
       {/* Header */}
       <ThemedText className="mb-4 mt-4 w-full items-center text-2xl font-semibold">
         Profile
       </ThemedText>
 
       {/* Not signed in card */}
-      <ThemedLightDarkView className="mb-6 items-center p-4 rounded-3xl">
+      <ThemedLightDarkView className="mb-6 items-center rounded-3xl p-4">
         <Icon name="CircleUser" size={42} />
-        <ThemedText className="mt-3 font-semibold text-2xl ">Not signed in</ThemedText>
+        <ThemedText className="mt-3 text-2xl font-semibold ">Not signed in</ThemedText>
         <ThemedText className="mt-1 text-center text-sm text-zinc-400">
           Sign in to access your account details, subscription info, and personalized features
         </ThemedText>
@@ -61,7 +61,7 @@ export default function ProfileScreen() {
                   Rate on App Store
                 </ThemedText>
               </TouchableOpacity>
-
+              <Separator />
               {/* Feedback */}
               <TouchableOpacity className="ml-2 flex-row items-center py-3">
                 <Icon name="Mail" size={20} />
@@ -75,21 +75,27 @@ export default function ProfileScreen() {
       {/* Support & Feedback */}
       <Section title="SUPPORT & FEEDBACK">
         <Row icon="Star" label="Rate App" />
+        <Separator />
         <Row icon="Share2" label="Share with Friends" />
+        <Separator />
         <Row icon="Mail" label="Contact Support" />
       </Section>
 
       {/* Follow us */}
       <Section title="FOLLOW US">
         <Row icon="Globe" label="inkigo.ai" />
+        <Separator />
         <Row icon="Instagram" label="Instagram" />
+        <Separator />
         <Row icon="Music" label="TikTok" />
+        <Separator />
         <Row icon="Twitter" label="X" />
       </Section>
 
       {/* Settings */}
       <Section title="SETTINGS">
         <ToggleRow label="Show Onboarding" value={showOnboarding} onChange={setShowOnboarding} />
+        <Separator />
         <ToggleRow
           label="Prompt Enhancement"
           value={promptEnhancement}
@@ -100,6 +106,7 @@ export default function ProfileScreen() {
       {/* Legal */}
       <Section title="LEGAL">
         <Row icon="Hand" label="Privacy Policy" />
+        <Separator />
         <Row icon="FileText" label="Terms of Service" />
       </Section>
     </ThemedScroller>

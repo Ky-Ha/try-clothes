@@ -1,54 +1,98 @@
-import ThemKeyboardAwareScrollView from '@/components/ThemKeyboardAwareScrollView';
-import ThemedScroller from '@/components/ThemeScroller';
 import ThemedText from '@/components/ThemedText';
-import BodyPhotoPicker from '@/components/style-swap/body-photo';
-import GenerateButton from '@/components/style-swap/generate';
-import ItemPhotoPicker from '@/components/style-swap/item-photo';
-import { StyleDescription } from '@/components/style-swap/style-description';
+import ThemedPlaceSecondary from '@/components/ThemePlaceHolder';
+import ThemedScroller from '@/components/ThemeScroller';
+import { homeData } from '@/lib/fake-data';
+import { View, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 
-import { useState } from 'react';
-import { useWindowDimensions, View } from 'react-native';
-
-export default function StyleSwapScreen() {
-  const [description, setDescription] = useState('');
+export default function HomeScreen() {
+  const { width, height } = useWindowDimensions();
 
   return (
-    <View className="relative flex-1">
-      <ThemKeyboardAwareScrollView
-        enableOnAndroid
-        extraScrollHeight={120}
-        keyboardOpeningTime={0}
-        keyboardShouldPersistTaps="handled"
-        className="flex-1">
-        {/* Header Section */}
-        <View className="w-full">
-          <ThemedText className="my-5 text-center text-xl font-bold">StyleSwap</ThemedText>
-
-          <ThemedText className="text-base font-semibold">Body Photo</ThemedText>
-          <ThemedText className="mb-3 text-gray-500">
-            Upload a photo of yourself for the try-on
-          </ThemedText>
-
-          {/* Ensure BodyPhotoPicker has its own internal height or aspect ratio */}
-          <BodyPhotoPicker />
-
-          <ThemedText className="mt-6 text-base font-semibold">Sample Items</ThemedText>
-          <ItemPhotoPicker />
-        </View>
-
-        {/* Description Section */}
-        <View className="mt-6 w-full">
-          <ThemedText className="text-base font-semibold">
-            Describe Your Style Request (Optional)
-          </ThemedText>
-          <StyleDescription value={description} onChange={setDescription} />
-        </View>
-
-        {/* Button Section */}
-      </ThemKeyboardAwareScrollView>
-      <View className="absolute bottom-2 left-0 right-0 mx-6 my-4">
-        <GenerateButton description={description} />
+    <ThemedScroller className="flex-1 bg-slate-200 px-6 pt-4">
+      {/* HEADER */}
+      <View className="mb-6 flex-row items-center justify-between">
+        <ThemedText className="text-2xl font-bold">Inkigo AI</ThemedText>
+        <ThemedText className="font-semibold text-yellow-400">New Tattoo</ThemedText>
       </View>
-    </View>
+
+      {/* HERO ACTIONS */}
+      <ThemedScroller horizontal showsHorizontalScrollIndicator={false} className="rounded-2xl">
+        {homeData.heroActions.map((item) => (
+          <TouchableOpacity key={item.id} activeOpacity={0.9} className="mr-3">
+            <Image
+              source={{ uri: item.image }}
+              className="h-[160px] rounded-2xl"
+              style={{ width: (width * 3) / 4 }}
+            />
+            <View className="absolute bottom-2 left-4 right-4">
+              <ThemedPlaceSecondary className="text-lg font-semibold ">
+                {item.title}
+              </ThemedPlaceSecondary>
+              <ThemedPlaceSecondary className="text-sm ">{item.subtitle}</ThemedPlaceSecondary>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ThemedScroller>
+
+      {/* DISCOVER */}
+      <ThemedText className="mb-4 mt-8 text-xl font-semibold ">Discover new styles</ThemedText>
+
+      <ThemedScroller horizontal showsHorizontalScrollIndicator={false} className="rounded-2xl">
+        {homeData.discoverStyles.map((item) => (
+          <View key={item.id} className="mr-3">
+            <Image
+              source={{ uri: item.image }}
+              className="rounded-2xl"
+              style={{ width: width / 2.7, height: height / 3 }}
+            />
+            <View className="absolute bottom-2 left-4 right-4">
+              <ThemedPlaceSecondary className="mt-2 text-center ">
+                {item.title}
+              </ThemedPlaceSecondary>
+            </View>
+          </View>
+        ))}
+      </ThemedScroller>
+
+      {/* MORE STYLES */}
+      <ThemedText className="mb-4 mt-8 text-xl font-semibold ">More styles</ThemedText>
+
+      <ThemedScroller horizontal showsHorizontalScrollIndicator={false} className="rounded-2xl">
+        {homeData.moreStyles.map((item) => (
+          <View key={item.id} className="mr-3">
+            <Image
+              source={{ uri: item.image }}
+              className="rounded-2xl"
+              style={{ width: width / 2.7, height: height / 3 }}
+            />
+            <View className="absolute bottom-2 left-4 right-4">
+              <ThemedPlaceSecondary className="mt-2 font-medium ">
+                {item.title}
+              </ThemedPlaceSecondary>
+            </View>
+          </View>
+        ))}
+      </ThemedScroller>
+
+      {/* MOODS */}
+      <ThemedText className="mb-4 mt-8 text-xl font-semibold ">Moods</ThemedText>
+
+      <ThemedScroller horizontal showsHorizontalScrollIndicator={false} className="rounded-2xl">
+        {homeData.moods.map((item) => (
+          <View key={item.id} className="mb-10 mr-3">
+            <Image
+              source={{ uri: item.image }}
+              className="rounded-2xl"
+              style={{ width: width / 2.7, height: height / 3 }}
+            />
+            <View className="absolute bottom-2 left-4 right-4">
+              <ThemedPlaceSecondary className="mt-2 font-medium ">
+                {item.title}
+              </ThemedPlaceSecondary>
+            </View>
+          </View>
+        ))}
+      </ThemedScroller>
+    </ThemedScroller>
   );
 }

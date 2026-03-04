@@ -14,7 +14,7 @@ export default function ThemedScroller({
 }: ThemedScrollerProps) {
   return (
     <ScrollView
-      className={`px-global bg-background ${className}`}
+      className={`bg-background ${className}`}
       bounces={false}
       contentContainerStyle={[
         { flexGrow: 1 },
@@ -24,7 +24,6 @@ export default function ThemedScroller({
       {...props}
     >
       {children}
-      <View className="h-24 " />
     </ScrollView>
   );
 }
