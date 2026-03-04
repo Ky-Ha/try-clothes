@@ -38,7 +38,7 @@ export default function GenerateButton({ description }: GenerateButtonProps) {
       setResultImage(image);
 
       console.log('Generated image 2:');
-      router.replace('/(tabs)/screens/result');
+      router.push('/screens/result');
       console.log('Generated image 3:');
     },
 

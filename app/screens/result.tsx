@@ -16,7 +16,7 @@ export default function ResultStyleScreen() {
 
   if (!resultImage) {
     return (
-      <View className="flex-1">
+      <View className="flex-1 px-4">
         <View style={{ paddingTop: insets.top }}>
           <View className="mb-6 flex-row items-center">
             <TouchableOpacity className="flex-row items-center gap-2" onPress={() => router.back()}>
@@ -36,7 +36,7 @@ export default function ResultStyleScreen() {
   return (
     <View className="relative flex-1">
       <ThemedScroller
-        className="flex-1"
+        className="flex-1 px-4"
         contentContainerStyle={{
           paddingBottom: 140, // 🔴 reserve space for fixed button
         }}>
@@ -46,8 +46,8 @@ export default function ResultStyleScreen() {
         <View style={{ paddingTop: insets.top }}>
           <View className="mb-6 flex-row items-center">
             <TouchableOpacity className="flex-row items-center gap-2" onPress={() => router.back()}>
-              <Icon name="ChevronRight" size={24} />
-              <ThemedText className="text-xl font-semibold">Style Result</ThemedText>
+              <Icon name="ChevronLeft" size={24} />
+              <ThemedText className="text-2xl font-semibold">Style Result</ThemedText>
             </TouchableOpacity>
           </View>
         </View>

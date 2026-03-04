@@ -1,5 +1,4 @@
 import ThemKeyboardAwareScrollView from '@/components/ThemKeyboardAwareScrollView';
-import ThemedScroller from '@/components/ThemeScroller';
 import ThemedText from '@/components/ThemedText';
 import BodyPhotoPicker from '@/components/style-swap/body-photo';
 import GenerateButton from '@/components/style-swap/generate';
