@@ -2,6 +2,7 @@ import ThemedText from '@/components/ThemedText';
 import ThemedPlaceSecondary from '@/components/ThemePlaceHolder';
 import ThemedScroller from '@/components/ThemeScroller';
 import { homeData } from '@/lib/fake-data';
+import { router } from 'expo-router';
 import { View, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 
 export default function HomeScreen() {
@@ -12,8 +13,8 @@ export default function HomeScreen() {
       {/* HEADER */}
       <View className="mb-6 flex-row items-center justify-between">
         <ThemedText className="text-2xl font-bold">Inkigo AI</ThemedText>
-        <TouchableOpacity>
-          <ThemedText className="font-semibold text-yellow-400">New Tattoo</ThemedText>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/camera')}>
+          <ThemedText className="font-semibold text-yellow-400">New Style</ThemedText>
         </TouchableOpacity>
       </View>
 

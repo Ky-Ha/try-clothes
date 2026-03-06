@@ -8,12 +8,28 @@ import GenerateButton from '@/components/style-swap/generate';
 import ItemPhotoPicker from '@/components/style-swap/item-photo';
 import { StyleDescription } from '@/components/style-swap/style-description';
 import AuthActionSheets, { AuthSheetsHandle } from '@/components/auth/auth';
+import { useNavigation } from 'expo-router';
 
 export default function StyleSwapScreen() {
   const { user } = useUser();
-
+  const navigation = useNavigation(); // Get navigation instance
   const [description, setDescription] = useState('');
   const authSheetsRef = useRef<AuthSheetsHandle>(null);
+
+  useEffect(() => {
+    // Listen for the focus event on this specific screen
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (!user) {
+        // Use a tiny timeout to ensure the layout is ready
+        // and the sheet hasn't been blocked by the previous screen's unmount
+        setTimeout(() => {
+          authSheetsRef.current?.showPrompt();
+        }, 100);
+      }
+    });
+
+    return unsubscribe; // Clean up listener
+  }, [navigation, user]);
 
   useEffect(() => {
     if (!user) {

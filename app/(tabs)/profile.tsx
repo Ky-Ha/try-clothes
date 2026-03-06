@@ -44,7 +44,6 @@ export default function ProfileScreen() {
     useItemStore.getState().clearImages();
     useResultStore.getState().clearAll();
 
-    // Now sign out and redirect
     await signOut();
     router.replace('/(tabs)/profile');
   };
@@ -74,9 +73,11 @@ export default function ProfileScreen() {
         )}
       </ThemedLightDarkView>
 
-      <Section>
-        <Row icon="LogOut" label="LogOut" onPress={handleLogout} />
-      </Section>
+      {user && (
+        <Section>
+          <Row icon="LogOut" label="LogOut" onPress={handleLogout} />
+        </Section>
+      )}
 
       {/* Quick actions */}
       <Section>
@@ -181,7 +182,7 @@ const Row = ({ icon, label, onPress }: { icon: any; label: string; onPress?: () 
     <TouchableOpacity
       className="flex-row items-center border-b py-4 last:border-b-0"
       onPress={onPress}>
-      <Icon name={icon} size={30} fill={'ok'} />
+      <Icon name={icon} size={30} />
       <ThemedText className="ml-3 flex-1 ">{label}</ThemedText>
     </TouchableOpacity>
   );
