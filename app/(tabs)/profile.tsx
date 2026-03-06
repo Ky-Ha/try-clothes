@@ -5,20 +5,48 @@ import ThemedText from '@/components/ThemedText';
 import Icon from '@/components/Icon';
 import { Separator } from '@/components/ui/separator';
 import ThemedLightDarkView from '@/components/ThemeLightDarkView';
-import { useUser } from '@clerk/clerk-expo';
+import { useClerk, useUser } from '@clerk/clerk-expo';
 import AuthMethodsSheet from '@/components/auth/auth-method-sheet';
 import { ActionSheetRef } from 'react-native-actions-sheet';
+import { useQueryClient } from '@tanstack/react-query';
+import { useBodyStore } from '@/store/body';
+import { useItemStore } from '@/store/item';
+import { useResultStore } from '@/store/result';
+import { router } from 'expo-router';
 
 export default function ProfileScreen() {
   const { user } = useUser();
+  const { signOut } = useClerk();
+
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [promptEnhancement, setPromptEnhancement] = useState(true);
   const [showEnjoyModal, setShowEnjoyModal] = useState(false);
+
+  const queryClient = useQueryClient(); // Get the query client here
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const methodsSheetRef = useRef<ActionSheetRef>(null);
 
   const transitionToMethods = () => {
     methodsSheetRef.current?.show();
+  };
+
+  const handleLogout = async () => {
+    console.log('Logout');
+    if (loggingOut) return;
+    setLoggingOut(true);
+
+    // Clear Tanstack Query cache (removes all queries; you can filter by keys if needed)
+    queryClient.removeQueries();
+
+    // Reset Zustand store
+    useBodyStore.getState().clearImages();
+    useItemStore.getState().clearImages();
+    useResultStore.getState().clearAll();
+
+    // Now sign out and redirect
+    await signOut();
+    router.replace('/(tabs)/profile');
   };
 
   return (
@@ -45,6 +73,10 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         )}
       </ThemedLightDarkView>
+
+      <Section>
+        <Row icon="LogOut" label="LogOut" onPress={handleLogout} />
+      </Section>
 
       {/* Quick actions */}
       <Section>
@@ -123,7 +155,8 @@ export default function ProfileScreen() {
         <Separator />
         <Row icon="FileText" label="Terms of Service" />
       </Section>
-      <AuthMethodsSheet ref={methodsSheetRef} />
+
+      <AuthMethodsSheet ref={methodsSheetRef} redirect={'/(tabs)/profile'} />
     </ThemedScroller>
   );
 }
@@ -143,9 +176,11 @@ const Section = ({ title, children }: { title?: string; children: React.ReactNod
   );
 };
 
-const Row = ({ icon, label }: { icon: any; label: string }) => {
+const Row = ({ icon, label, onPress }: { icon: any; label: string; onPress?: () => void }) => {
   return (
-    <TouchableOpacity className="flex-row items-center border-b py-4 last:border-b-0">
+    <TouchableOpacity
+      className="flex-row items-center border-b py-4 last:border-b-0"
+      onPress={onPress}>
       <Icon name={icon} size={30} fill={'ok'} />
       <ThemedText className="ml-3 flex-1 ">{label}</ThemedText>
     </TouchableOpacity>

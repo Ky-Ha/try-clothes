@@ -8,6 +8,10 @@ import * as WebBrowser from 'expo-web-browser';
 import ActionSheetThemed from '@/components/ActionSheetThemed';
 import ThemedText from '@/components/ThemedText';
 
+type Props = {
+  redirect: string;
+};
+
 export const useWarmUpBrowser = () => {
   useEffect(() => {
     void WebBrowser.warmUpAsync();
@@ -19,22 +23,27 @@ export const useWarmUpBrowser = () => {
 
 WebBrowser.maybeCompleteAuthSession();
 
-const AuthMethodsSheet = forwardRef<ActionSheetRef>((_, ref) => {
+const AuthMethodsSheet = forwardRef<ActionSheetRef, Props>(({ redirect }, ref) => {
   const { startSSOFlow } = useSSO();
   const router = useRouter();
 
   const onPress = useCallback(async () => {
+    console.log('continue with google');
     try {
       const { createdSessionId, setActive, signIn, signUp } = await startSSOFlow({
         strategy: 'oauth_google',
-        redirectUrl: AuthSession.makeRedirectUri({ path: 'sign-in' }), // Explicitly set to return to this page
+        redirectUrl: AuthSession.makeRedirectUri({ path: redirect }),
       });
 
       if (createdSessionId) {
         await setActive!({
           session: createdSessionId,
           navigate: async () => {
-            router.back();
+            if (typeof ref !== 'function') {
+              ref?.current?.hide();
+            }
+
+            router.replace(redirect); // redirect after successfully login
           },
         });
       } else {
@@ -54,17 +63,13 @@ const AuthMethodsSheet = forwardRef<ActionSheetRef>((_, ref) => {
   }, []);
 
   return (
-    <ActionSheetThemed ref={ref} gestureEnabled={true} closeOnTouchBackdrop={true}>
+    <ActionSheetThemed ref={ref} gestureEnabled closeOnTouchBackdrop>
       <View className="px-6 pb-12 pt-10">
         <ThemedText className="text-4xl font-bold">Welcome back!</ThemedText>
-        <ThemedText className="mt-3 text-base">
-          Please choose your preferred sign in method
-        </ThemedText>
 
         <TouchableOpacity
           className="mt-10 flex-row items-center justify-center rounded-3xl bg-slate-200 py-5"
-          onPress={onPress}
-          activeOpacity={0.9}>
+          onPress={onPress}>
           <Image
             source={require('@/assets/images/google-color.png')}
             style={{ width: 28, height: 28, marginRight: 12 }}

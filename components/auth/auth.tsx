@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react
 import type { ActionSheetRef } from 'react-native-actions-sheet';
 import AuthPromptSheet from './auth-prompt-sheet';
 import AuthMethodsSheet from './auth-method-sheet';
+import { router } from 'expo-router';
 
 export interface AuthSheetsHandle {
   showPrompt: () => void;
@@ -28,7 +29,7 @@ const AuthActionSheets = forwardRef<AuthSheetsHandle>((_, ref) => {
   return (
     <>
       <AuthPromptSheet ref={promptSheetRef} onSignInPress={transitionToMethods} />
-      <AuthMethodsSheet ref={methodsSheetRef} />
+      <AuthMethodsSheet ref={methodsSheetRef} redirect={'/(tabs)/camera'} />
     </>
   );
 });
