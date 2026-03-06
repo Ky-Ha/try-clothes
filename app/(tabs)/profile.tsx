@@ -1,16 +1,25 @@
-import { View, TouchableOpacity, Switch } from 'react-native';
-
-import { useState } from 'react';
+import { View, TouchableOpacity, Switch, Image } from 'react-native';
+import { useRef, useState } from 'react';
 import ThemedScroller from '@/components/ThemeScroller';
 import ThemedText from '@/components/ThemedText';
 import Icon from '@/components/Icon';
 import { Separator } from '@/components/ui/separator';
 import ThemedLightDarkView from '@/components/ThemeLightDarkView';
+import { useUser } from '@clerk/clerk-expo';
+import AuthMethodsSheet from '@/components/auth/auth-method-sheet';
+import { ActionSheetRef } from 'react-native-actions-sheet';
 
 export default function ProfileScreen() {
+  const { user } = useUser();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [promptEnhancement, setPromptEnhancement] = useState(true);
   const [showEnjoyModal, setShowEnjoyModal] = useState(false);
+
+  const methodsSheetRef = useRef<ActionSheetRef>(null);
+
+  const transitionToMethods = () => {
+    methodsSheetRef.current?.show();
+  };
 
   return (
     <ThemedScroller className="flex-1 px-6">
@@ -26,10 +35,15 @@ export default function ProfileScreen() {
         <ThemedText className="mt-1 text-center text-sm text-zinc-400">
           Sign in to access your account details, subscription info, and personalized features
         </ThemedText>
-
-        <TouchableOpacity className="mt-4 rounded-xl border border-gray-300 px-6 py-3">
-          <ThemedText className="font-semibold">Sign in</ThemedText>
-        </TouchableOpacity>
+        {user ? (
+          <Image source={{ uri: user.imageUrl }} className="mb-3 h-20 w-20 rounded-full" />
+        ) : (
+          <TouchableOpacity
+            className="mt-4 rounded-xl border border-gray-300 px-6 py-3"
+            onPress={transitionToMethods}>
+            <ThemedText className="font-semibold">Sign in</ThemedText>
+          </TouchableOpacity>
+        )}
       </ThemedLightDarkView>
 
       {/* Quick actions */}
@@ -109,6 +123,7 @@ export default function ProfileScreen() {
         <Separator />
         <Row icon="FileText" label="Terms of Service" />
       </Section>
+      <AuthMethodsSheet ref={methodsSheetRef} />
     </ThemedScroller>
   );
 }
