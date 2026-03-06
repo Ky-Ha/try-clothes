@@ -32,20 +32,29 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = async () => {
-    console.log('Logout');
     if (loggingOut) return;
+
+    console.log('log out');
     setLoggingOut(true);
 
-    // Clear Tanstack Query cache (removes all queries; you can filter by keys if needed)
-    queryClient.removeQueries();
+    try {
+      // Clear Tanstack Query cache
+      queryClient.removeQueries();
 
-    // Reset Zustand store
-    useBodyStore.getState().clearImages();
-    useItemStore.getState().clearImages();
-    useResultStore.getState().clearAll();
+      // Reset Zustand stores
+      useBodyStore.getState().clearImages();
+      useItemStore.getState().clearImages();
+      useResultStore.getState().clearAll();
 
-    await signOut();
-    router.replace('/(tabs)/profile');
+      // Clerk logout
+      await signOut();
+
+      router.replace('/(tabs)/profile');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   return (
@@ -56,27 +65,32 @@ export default function ProfileScreen() {
       </ThemedText>
 
       {/* Not signed in card */}
-      <ThemedLightDarkView className="mb-6 items-center rounded-3xl p-4">
-        <Icon name="CircleUser" size={42} />
-        <ThemedText className="mt-3 text-2xl font-semibold ">Not signed in</ThemedText>
-        <ThemedText className="mt-1 text-center text-sm text-zinc-400">
-          Sign in to access your account details, subscription info, and personalized features
-        </ThemedText>
-        {user ? (
+
+      {user ? (
+        <ThemedLightDarkView className="mb-6 items-center rounded-3xl p-4">
           <Image source={{ uri: user.imageUrl }} className="mb-3 h-20 w-20 rounded-full" />
-        ) : (
+          <ThemedText>{user.fullName}</ThemedText>
+          <TouchableOpacity
+            className="mt-4 flex-row items-center gap-2 rounded-xl border border-gray-300 px-6 py-3"
+            onPress={handleLogout}>
+            <Icon name="LogOut" />
+            <ThemedText className="font-semibold">Log out</ThemedText>
+          </TouchableOpacity>
+        </ThemedLightDarkView>
+      ) : (
+        <ThemedLightDarkView className="mb-6 items-center rounded-3xl p-4">
+          <Icon name="CircleUser" size={42} />
+          <ThemedText className="mt-3 text-2xl font-semibold ">Not signed in</ThemedText>
+          <ThemedText className="mt-1 text-center text-sm text-zinc-400">
+            Sign in to access your account details, subscription info, and personalized features
+          </ThemedText>
+
           <TouchableOpacity
             className="mt-4 rounded-xl border border-gray-300 px-6 py-3"
             onPress={transitionToMethods}>
             <ThemedText className="font-semibold">Sign in</ThemedText>
           </TouchableOpacity>
-        )}
-      </ThemedLightDarkView>
-
-      {user && (
-        <Section>
-          <Row icon="LogOut" label="LogOut" onPress={handleLogout} />
-        </Section>
+        </ThemedLightDarkView>
       )}
 
       {/* Quick actions */}
