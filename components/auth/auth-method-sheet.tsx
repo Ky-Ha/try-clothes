@@ -28,20 +28,19 @@ const AuthMethodsSheet = forwardRef<ActionSheetRef, Props>(({ redirect }, ref) =
   const router = useRouter();
 
   const onPress = useCallback(async () => {
+    if (typeof ref !== 'function') {
+      ref?.current?.hide();
+    }
     try {
       const { createdSessionId, setActive, signIn, signUp } = await startSSOFlow({
         strategy: 'oauth_google',
         redirectUrl: AuthSession.makeRedirectUri({ path: redirect }),
       });
-      console.log('continue with google');
+
       if (createdSessionId) {
         await setActive!({
           session: createdSessionId,
           navigate: async () => {
-            if (typeof ref !== 'function') {
-              ref?.current?.hide();
-            }
-
             router.replace(redirect); // redirect after successfully login
           },
         });

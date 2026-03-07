@@ -5,7 +5,7 @@ export const generateResult = async (
   itemImages: string[],
   description: string,
 ) => {
-  const res = await backendApi.post('/api/ai/test', {
+  const res = await backendApi.post('/api/ai/generate', {
     bodyImages,
     itemImages,
     description,
