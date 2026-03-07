@@ -55,20 +55,21 @@ export default function ResultStyleScreen() {
         {/* CONTENT */}
         <View className="flex-1">
           {/* RESULT IMAGE */}
-          <View
-            style={{
-              width: width - 50,
-              height: height / 2,
-            }}
-            className="relative overflow-hidden rounded-2xl bg-red-400">
-            <ImageBackground
-              source={typeof resultImage === 'string' ? { uri: resultImage } : resultImage}
-              resizeMode="stretch"
-              imageStyle={{ alignSelf: 'flex-start' }} // ✅ TOP aligned
-              style={{ width: '100%', height: '100%' }}
-            />
+          <View className="w-full items-center">
+            <View
+              style={{
+                width: width - 60,
+                height: height / 2,
+              }}
+              className="relative overflow-hidden rounded-2xl">
+              <ImageBackground
+                source={typeof resultImage === 'string' ? { uri: resultImage } : resultImage}
+                resizeMode="stretch"
+                imageStyle={{ alignSelf: 'flex-start' }} // ✅ TOP aligned
+                style={{ width: '100%', height: '100%' }}
+              />
+            </View>
           </View>
-
           {/* OUTFIT DETAILS */}
           <ThemedText className="mb-3 mt-6 text-base font-semibold">Outfit Details</ThemedText>
 
